@@ -16,13 +16,13 @@ mongoose.connect(config.connectionString);
 
 // Carrega as rotas
 const index = require('./routes/index');
-// const recipe = require('./routes/');
+const recipe = require('./routes/recipe');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use('/', index);
-// app.use('/recipes', recipe);
+app.use('/recipes', recipe);
 
 module.exports = app;
