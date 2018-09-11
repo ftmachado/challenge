@@ -2,15 +2,20 @@
 
 const request = require('request');
 
+const url = require('url');  
+const querystring = require('querystring'); 
+
 exports.get = async(req, res, next) => {
     try{
-        request('http://www.recipepuppy.com/api/?i=onions,garlic', (error, response, body) => {
+        let i = req.query.i;
+
+        // request('http://www.recipepuppy.com/api/?i=onions,garlic', (error, response, body) => {
+        request('http://www.recipepuppy.com/api/',{ 'i': i}, (error, response, body) => {
             let parsedBody = JSON.parse(body);
-            console.log('Query  '+req.query.i);
             res.status(200).send({
                 error: error, // Print the error if one occurred
                 statusCode: response && response.statusCode, // Print the response status code if a response was received
-                keywords: req.params.i,
+                keywords: i,
                 recipes:[{
                     results: parsedBody['results']
                 }]

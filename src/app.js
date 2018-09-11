@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('./config');
 
+const url = require('url');  
+const querystring = require('querystring'); 
+
 const app = express();
 const router = express.Router();
 
@@ -24,5 +27,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
 app.use('/recipes', recipe);
+// app.get('/recipes/', async(req, res) =>{
+//     let i = req.query.i;
+//     res.status(200).send({
+//         message: 'Ingrediente passado '+i
+//     });
+// });
 
 module.exports = app;
