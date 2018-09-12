@@ -4,9 +4,9 @@ Este projeto faz parte do desafio de construir uma API GET em NodeJS.
 
 ## O Projeto
 
-Esta API recebe como entrada por parâmetro GET um conjunto de ingredientes (máximo 3).
+Esta API recebe como entrada um conjunto de ingredientes (máximo 3) por parâmetro GET.
 
-Com estes ingredientes consulta as APIs públicas RecipePuppy (http://www.recipepuppy.com/about/api/) e Giphy (https://developers.giphy.com/docs/) para gerar a resposta final da requisição.
+A partir destes ingredientes consulta as APIs públicas RecipePuppy (http://www.recipepuppy.com/about/api/) e Giphy (https://developers.giphy.com/docs/) para gerar a resposta final da requisição.
 
 O processo é o seguinte: a API recebe os ingredientes e submete a consulta ao RecipePuppy. A partir do título retornado da receita, submete nova requisição ao Giphy e obtém uma URL com o link do .gif.
 
@@ -16,21 +16,21 @@ Como resposta, devolve uma lista de receitas com base nos keywords informados co
 - Link para acessar a receita;
 - Link de um gif para a receita.
 
-#### A Estrutura
+### A Estrutura
 
-A API possui apenas um endpoint, que respeitando a seguinte chamada:
+A API possui apenas um endpoint que respeita a seguinte chamada:
 
 `http://{HOST}:{PORT}/recipes/?i={ingredient_1},{ingredient_2},{ingredient_3}`
 
-##Instalação
+### Instalação
 
-Para instalar os pacotes é necessário ter instalado o npm e executar:
+Para instalar os pacotes é necessário ter instalado o `npm` e executar:
 
 ```sh
 npm install
 ```
 
-Para executar o servidor pode ser feito pelo comando `node`, ou ainda com o pacote `nodemon` que monitora modificações no projeto e automaticamente reinicia o servidor, logo:
+A execução do servidor pode ser feita pelo comando `node`, ou ainda com o pacote `nodemon` que monitora modificações no projeto e automaticamente reinicia o servidor. Sendo assim execute um dos códigos abaixo para iniciar o servidor:
 
 ```sh
 node bin/server
@@ -38,7 +38,7 @@ ou
 nodemon bin/server
 ```
 
-##Exemplo
+### Exemplo
 
 A porta utilizada para requisições é a porta 3000, utilizando localhost.
 
@@ -50,8 +50,6 @@ Para verificar se o servidor está funcionando, execute:
 Para utilizar a API:
 
 `http://localhost:3000/recipes/?i=onion,tomato,garlic`
-
-Sendo que os ingredientes são em inglês e de 1 a 3.
 
 A resposta segue a estrutura:
 
