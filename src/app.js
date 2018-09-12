@@ -24,7 +24,6 @@ const recipe = require('./routes/recipe');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 app.use('/', index);
 app.use('/recipes', recipe);
 // app.get('/recipes/', async(req, res) =>{
