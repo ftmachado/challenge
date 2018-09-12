@@ -22,7 +22,7 @@ exports.get = async(req, res, next) => {
         }
         
         let url = 'http://www.recipepuppy.com/api/?i='+i;
-        console.log('Url: '+url)
+        console.log('Url: '+ url);
 
         request({url: url}, (error, response, body) => {
             
@@ -36,8 +36,25 @@ exports.get = async(req, res, next) => {
             }
 
             let parsedBody = JSON.parse(body);
-            let recipes = [];
+            // var gif = [];
+            var recipes = [];
 
+            // Chamar o request do Giphy a cada título, e o retorno adicionar a um array
+            for (i in parsedBody.results){
+                let q = encodeURIComponent(parsedBody.results[i].title);
+                let search = 'https://api.giphy.com/v1/gifs/search?api_key=SeUJW7KKSHnD5FWZ3yY7PtQ9N448tYwH&q='+q+'&limit=1&offset=0&rating=R&lang=en';
+                // console.log('Procurando giphy: '+search);
+
+                request({url: search}, (error, response, body) => {
+                    const info = JSON.parse(body);
+                    var item2 = {};
+                    item2.gif = info.data[0].images.original.url;
+                    // console.log('Elem item '+item2.gif);
+                    recipes.push(item2);
+                });
+            }
+
+            
             for (i in parsedBody.results){
                 var item = {};
                 item.title = parsedBody.results[i].title;
