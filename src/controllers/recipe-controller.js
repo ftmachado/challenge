@@ -3,9 +3,12 @@
 const r = require('request-promise');
 const url = require('url');  
 const querystring = require('querystring');
+const https = require('https');
 
 const Validation = require('../validators/fluent-validator');
 var validator = new Validation();
+
+var promises = [];
 
 function getRecipe(ingredients) {
 
@@ -52,7 +55,7 @@ function getGiphy(title){
         
         let q = encodeURIComponent(title);
         let search = 'https://api.giphy.com/v1/gifs/search?api_key=SeUJW7KKSHnD5FWZ3yY7PtQ9N448tYwH&q='+q+'&limit=1&offset=0&rating=R&lang=en';
-        console.log('Url Giphy: '+search);
+        // console.log('Url Giphy: '+search);
 
         r(search).then( (result) => {
             
@@ -64,6 +67,38 @@ function getGiphy(title){
         })
         
     })
+}
+
+let getOneGiphy = function(title){
+    
+    return new Promise(function(resolve, reject){
+        
+        let options = {
+            hostname: 'https://api.giphy.com',
+            port: 443,
+            path: '/v1/gifs/search?api_key=SeUJW7KKSHnD5FWZ3yY7PtQ9N448tYwH&q='+title+'&limit=1&offset=0&rating=R&lang=en',
+            method: 'GET'
+        };
+
+        let req = https.request(options, (res) => {
+            
+            res.on('data', (d) => {
+                try{
+                    let result = JSON.parse(d);
+                    resolve(result.data[0].images.original.url);
+                    
+                } catch(ex) {
+                    reject(ex);
+                }
+            });
+
+        });
+
+        req.on('error', (e) => { reject(e); });
+        req.end();
+
+    });
+
 }
 
 exports.get = async(req, res, next) => {
@@ -83,17 +118,53 @@ exports.get = async(req, res, next) => {
         getRecipe(i).then( (result) =>{
             //popular um result[i].gif
             
-            return getGiphy(result[0].title).then( (resultGiphy) => {
+            for (var i in result){
+
+                return getGiphy(result[i].title).then( (resultGiphy) => {
+                    result[i].gif = resultGiphy;
+                    return result;
+                })
+
+            }
+
+            // return result;
+            // var i= 0;
+            // return getGiphy(result[i].title).then( (resultGiphy) => {
                 
-                result[0].gif = resultGiphy;
-                // console.log('Result giphy '+result[0].gif);
-                // console.log('Result all giphys '+resultGiphy);
-                return result;
+            //     result[i].gif = resultGiphy;
+            //     // console.log('Result giphy '+result[0].gif);
+            //     // console.log('Result all giphys '+resultGiphy);
+
+            //     if (result[i++] != undefined){
+            //         return getGiphy(result[i++].title);
+            //     } else{
+            //         return result;
+            //     }
+
                 
-            }).catch( (e) => {
-                result[0].gif = e;
-            })
+            // })
+
+            //.catch( (e) => {
+            //     result[0].gif = e;
+            // })
+
+            // for (var i in result.title){
+            //     console.log('Chamando o titulo '+i);
+                
+            //     promises.push( getOneGiphy( encodeURIComponent(result[i].title) ) );
+            //     console.log( encodeURIComponent(result[i].title) );
+            // }
+
             
+            // return Promise.all(promises).then( (all) =>{
+                
+            //     // Merge dos Arrays para mostrar bonito
+            //     for (var i in result){
+            //         result[i].gif = all[i];
+            //     }
+                
+            // })
+
         })
         .then( (result) =>{
 
