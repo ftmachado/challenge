@@ -71,6 +71,20 @@ A resposta segue a estrutura:
 }
 ```
 
+### Execução do projeto com Docker 
+
+Na raiz do projeto, onde está localizado o Dockerfile, rode o comando abaixo para contruir a imagem do Docker.
+
+```
+docker build -t nodechallenge .
+```
+
+Para rodar o container utilize o comando abaixo, expondo a porta 3000 e em modo daemon.
+
+```
+docker run -p 3000:3000 -d nodechallenge
+```
+
 ## Desenvolvido por
 
 **Fhabiana Thieli Machado**
