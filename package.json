@@ -2,8 +2,9 @@
   "name": "challenge",
   "version": "1.0.0",
   "description": "Tech Challenge API NodeJS",
-  "main": "index.js",
+  "main": "./bin/server.js",
   "scripts": {
+    "start": "node ./bin/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,7 @@
     "http": "0.0.0",
     "querystring": "^0.2.0",
     "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "url": "^0.11.0"
   },
   "devDependencies": {
